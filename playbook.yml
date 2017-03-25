@@ -1,0 +1,53 @@
+---
+- name: Playbook to use OpenSCAP
+  hosts: 127.0.0.1
+  connection: local
+  tasks:
+  - name: Update repositories cache and install git
+    apt:
+      name: git
+      update_cache: yes
+  - name: Install build-essential for building OpenSCAP
+    apt:
+      name: build-essential    
+  - name: Install autoconf for building OpenSCAP
+    apt:
+      name: autoconf
+  - name: Install automake for building OpenSCAP
+    apt:
+      name: automake
+  - name: Install libtool for building OpenSCAP
+    apt:
+      name: libtool
+  - name: Install pkg-config for building OpenSCAP
+    apt:
+      name: pkg-config
+  - name: Install libcurl dependency of  OpenSCAP
+    apt:
+      name: libcurl4-openssl-dev
+  - name: Install libxml2 dependency of  OpenSCAP
+    apt:
+      name: libxml2-dev
+  - name: Install libxslt dependency of  OpenSCAP
+    apt:
+      name: libxslt1-dev
+  - name: Install libpcre dependency of  OpenSCAP
+    apt:
+      name: libpcre3-dev
+  - name: Install librpm dependency of  OpenSCAP
+    apt:
+      name: librpm-dev
+  - name: Install swig dependency of  OpenSCAP
+    apt:
+      name: swig
+  - name: Install libgcrypt dependency of  OpenSCAP
+    apt:
+      name: libgcrypt20-dev
+  - name: Get the 1.2 branch OpenSCAP source
+    git: 
+      repo: https://github.com/OpenSCAP/openscap
+      dest: ./openscap-1.2.x
+      version: maint-1.2
+  - name: Build OpenSCAP
+    script: ./build_oscap.sh
+
