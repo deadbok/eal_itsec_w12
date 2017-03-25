@@ -4,6 +4,7 @@
   connection: local
   vars:
     openscap_version: 1.2.14
+    scap_security_guide_version: 0.1.31
   tasks:
   - name: Update repository cache and install build-essential for building OpenSCAP
     apt:
@@ -21,28 +22,28 @@
   - name: Install pkg-config for building OpenSCAP
     apt:
       name: pkg-config
-  - name: Install libcurl dependency of  OpenSCAP
+  - name: Install libcurl dependency of OpenSCAP
     apt:
       name: libcurl4-openssl-dev
-  - name: Install libxml2 dependency of  OpenSCAP
+  - name: Install libxml2 dependency of OpenSCAP
     apt:
       name: libxml2-dev
-  - name: Install libxslt dependency of  OpenSCAP
+  - name: Install libxslt dependency of OpenSCAP
     apt:
       name: libxslt1-dev
-  - name: Install libpcre dependency of  OpenSCAP
+  - name: Install libpcre dependency of OpenSCAP
     apt:
       name: libpcre3-dev
-  - name: Install librpm dependency of  OpenSCAP
+  - name: Install librpm dependency of OpenSCAP
     apt:
       name: librpm-dev
-  - name: Install swig dependency of  OpenSCAP
+  - name: Install swig dependency of OpenSCAP
     apt:
       name: swig
-  - name: Install libgcrypt dependency of  OpenSCAP
+  - name: Install libgcrypt dependency of OpenSCAP
     apt:
       name: libgcrypt20-dev
-  - name: Install Python development files dependency of  OpenSCAP
+  - name: Install Python development files dependency of OpenSCAP
     apt:
       name: python-dev
   - name: Fetch the OpenSCAP source version {{ openscap_version }}
@@ -55,4 +56,17 @@
       dest: /tmp
   - name: Build OpenSCAP
     script: ./build_oscap.sh "/tmp/openscap-{{ openscap_version }}"
+  - name: Install cmake used during the SCAP security guide build 
+    apt:
+      name: cmake
+  - name: Fetch the SCAP security guide version {{ openscap_version }}
+    get_url:
+      url: https://github.com/OpenSCAP/scap-security-guide/releases/download/v{{ scap_security_guide_version }}/scap-security-guide-{{ scap_security_guide_version }}.tar.gz
+      dest: /tmp/openscap-sec-guide.tar.gz
+  - name: Unpack the SCAP security guide source.
+    unarchive:
+      src: /tmp/openscap-sec-guide.tar.gz
+      dest: /tmp
+  - name: Build SCAP security guide
+    script: ./build_oscap-sec-guide.sh "/tmp/scap-security-guide-{{ scap_security_guide_version }}"
 

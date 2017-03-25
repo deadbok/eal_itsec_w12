@@ -26,3 +26,8 @@ See [OpenSCAP for USB Flash Drive - Issue #197](https://github.com/OpenSCAP/open
  * Use oscap-ssh from the host system into the target system
  * Remove the static oscap files from the target system. 
 
+## Dependencies ##
+
+ * `git` for cloning this
+ * `ansible` for running this
+ * Debian `contrib` packages for installing `cmake` used during the SCAP security guide build.
