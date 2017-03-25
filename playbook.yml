@@ -2,14 +2,13 @@
 - name: Playbook to use OpenSCAP
   hosts: 127.0.0.1
   connection: local
+  vars:
+    openscap_version: 1.2.14
   tasks:
-  - name: Update repositories cache and install git
+  - name: Update repository cache and install build-essential for building OpenSCAP
     apt:
-      name: git
-      update_cache: yes
-  - name: Install build-essential for building OpenSCAP
-    apt:
-      name: build-essential    
+      name: build-essential
+      update-cache: yes
   - name: Install autoconf for building OpenSCAP
     apt:
       name: autoconf
@@ -43,11 +42,17 @@
   - name: Install libgcrypt dependency of  OpenSCAP
     apt:
       name: libgcrypt20-dev
-  - name: Get the 1.2 branch OpenSCAP source
-    git: 
-      repo: https://github.com/OpenSCAP/openscap
-      dest: ./openscap-1.2.x
-      version: maint-1.2
+  - name: Install Python development files dependency of  OpenSCAP
+    apt:
+      name: python-dev
+  - name: Fetch the OpenSCAP source version {{ openscap_version }}
+    get_url:
+      url: https://github.com/OpenSCAP/openscap/releases/download/{{ openscap_version }}/openscap-{{ openscap_version }}.tar.gz
+      dest: /tmp/openscap-src.tar.gz
+  - name: Unpack the OpenSCAP source.
+    unarchive:
+      src: /tmp/openscap-src.tar.gz
+      dest: /tmp
   - name: Build OpenSCAP
-    script: ./build_oscap.sh
+    script: ./build_oscap.sh "/tmp/openscap-{{ openscap_version }}"
 

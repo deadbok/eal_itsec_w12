@@ -1,5 +1,6 @@
-cd openscap-1.2.x
-./autogen.sh
-../configure --enable-static
+cd $1
+make clean 2> /dev/null || true
+./configure --prefix=/tmp/openscap-installed
 make
+make install
 
