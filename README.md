@@ -20,7 +20,7 @@ See [OpenSCAP for USB Flash Drive - Issue #197](https://github.com/OpenSCAP/open
 
 ### Second ###
 
- * Build a version of OpenSCAP for debian testing.
+ * Build a version of OpenSCAP for debian stable.
  * Package this version so it is easy to transfer to the target, and purge after use.
  * Copy the oscap filses to the target system
  * Use oscap-ssh from the host system into the target system
